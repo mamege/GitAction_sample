@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
-import datetime
+import datetime, time
+import re
 import subprocess
 from subprocess import Popen
 
@@ -42,28 +43,46 @@ class Nqsv:
         return string
 
 
-def testQstat():
+
+def testQstat(jobID, elapsed_limit=10):
     nqsv = Nqsv()
-    for i in range(4):
-        print(nqsv.qstat())
+
+    timeout = time.time() + elapsed_limit   # 5 minutes from now
+    duration = 5
+    print(time.time(), " ", timeout)
+    while True:
+        output = nqsv.qstat()
+        #print(time.time(), " ", timeout)
+        if (output.find(jobID) == -1):
+            print(color.red('not found'))
+            break
+        elif (time.time() > timeout):
+            print(color.red('timeout'))
+            break
+        else:
+            print(output)
+            print(color.green('found'))
+        time.sleep(duration)
 
 
 
 def execCommand():
     try:
-        mock = "Request 444204.nqsv submitted to queue: fpga."
+        mock = "Request 444211.nqsv submitted to queue: fpga."
         p = Popen(["echo",mock], 
             stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
         output, errors = p.communicate()
         print(output)
     except:
         print((color.red('%s') + ': failed') % "command")
+        exit(1)
     return output
 
 def main():
     print((color.green('%s') + ': this is color string test') % "green")
-    execCommand()
-    testQstat()
+    jobID = re.sub("\\D", "", execCommand() )
+    print(jobID)
+    testQstat(jobID)
 
 
 
