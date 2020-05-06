@@ -2,6 +2,7 @@
 
 import datetime
 import subprocess
+from subprocess import Popen
 
 class color:
     def _wrap_with(code):
@@ -50,9 +51,10 @@ def testQstat():
 
 def execCommand():
     try:
-        output = subprocess.getoutput(
-            'echo %s 2>&1'  
-            % "Request 444204.nqsv submitted to queue: fpga.")
+        mock = "Request 444204.nqsv submitted to queue: fpga."
+        p = Popen(["echo",mock], 
+            stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
+        output, errors = p.communicate()
         print(output)
     except:
         print((color.red('%s') + ': failed') % "command")
@@ -60,6 +62,7 @@ def execCommand():
 
 def main():
     print((color.green('%s') + ': this is color string test') % "green")
+    execCommand()
     testQstat()
 
 
