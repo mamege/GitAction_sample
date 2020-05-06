@@ -19,15 +19,50 @@ class color:
     cyan    = _wrap_with('36')
     white   = _wrap_with('37')
 
-def main():
-    print((color.green('%s') + ': this is color string test') % "green")
+class Nqsv:
+    def __init__(self):
+        self.times=0
+    
+    def qstat(self):
+        if (self.times < 3):
+            self.times += 1
+            return self.running()
+        else:
+            self.times = 0
+            return self.done()
+        
+    def running(self):
+        string="""RequestID       ReqName  UserName Queue     Pri STT S   Memory      CPU   Elapse R H M Jobs
+--------------- -------- -------- -------- ---- --- - -------- -------- -------- - - - ----
+444211.nqsv     SMI_Qsub kashino  fpga        0 RUN -  925.64M     0.97       23 N Y Y    1"""
+        return string
+    def done(self):
+        string=""
+        return string
+
+
+def testQstat():
+    nqsv = Nqsv()
+    for i in range(4):
+        print(nqsv.qstat())
+
+
+
+def execCommand():
     try:
         output = subprocess.getoutput(
-            'ls %s 2>&1'  
-            % "./")
+            'echo %s 2>&1'  
+            % "Request 444204.nqsv submitted to queue: fpga.")
         print(output)
     except:
         print((color.red('%s') + ': failed') % "command")
+    return output
+
+def main():
+    print((color.green('%s') + ': this is color string test') % "green")
+    testQstat()
+
+
 
 if __name__ == '__main__':
     print(datetime.datetime.now().strftime('Start: %Y-%m-%d %H:%M:%S'))
