@@ -1,0 +1,17 @@
+name: Webhook Example
+on: repository_dispatch
+jobs:
+  build:
+    runs-on: [self-hosted, macOS]
+    steps:
+    - uses: actions/checkout@v1
+    
+    - name: On my_custom_webhook do ABC...
+      if: github.event.action == 'my_custom_webhook'
+      run: |
+        hostname && echo "Hello From my_custom_webhook...doing ABC"
+        
+    - name: On my_custom_webhook do XYZ...
+      if: github.event.action == 'my_custom_webhook_2'
+      run: |
+        hostname && echo "Hello From my_custom_webhook_2...doing XYZ"
