@@ -2,10 +2,18 @@ name: Webhook Example
 on: repository_dispatch
 jobs:
   build:
-    runs-on: [self-hosted, macOS]
+    runs-on: [self-hosted, ppx]
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
     
+    - name: get information
+      run: |
+        echo "GITHUB_WORKSPACE=" $GITHUB_WORKSPACE
+        echo "HOME=" $HOME
+        echo "GITHUB_REPOSITORY=" $GITHUB_REPOSITORY
+        echo "GITHUB_SHA=" $GITHUB_SHA
+        echo "GITHUB_REF=" $GITHUB_REF
+      
     - name: On my_custom_webhook do ABC...
       if: github.event.action == 'my_custom_webhook'
       run: |
