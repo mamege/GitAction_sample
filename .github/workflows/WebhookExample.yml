@@ -9,6 +9,8 @@ jobs:
     - name: get information
       run: |
         echo "GITHUB_WORKSPACE=" $GITHUB_WORKSPACE
+        echo "${{ github.repository }}=" ${{ github.repository }}
+        echo "${{ github.token }}=" ${{ github.token }}
         echo "HOME=" $HOME
         echo "GITHUB_REPOSITORY=" $GITHUB_REPOSITORY
         echo "GITHUB_SHA=" $GITHUB_SHA
