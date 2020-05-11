@@ -10,7 +10,7 @@ jobs:
       run: |
         cd ${{ secrets.SMI_WORKDIR }}
         ls 
-        cd ${{SMI_BUILDDIR}}
+        cd ${{ secrets.SMI_BUILDDIR}}
         ls
         echo "GITHUB_WORKSPACE=" $GITHUB_WORKSPACE
         echo "${{ github.repository }}=" ${{ github.repository }}
