@@ -1,0 +1,31 @@
+name: Webhook Example
+on: repository_dispatch
+jobs:
+  build:
+    runs-on: [self-hosted, ppx]
+    steps:
+    - uses: actions/checkout@v2
+    
+    - name: get information
+      run: |
+        cd ${{ secrets.SMI_WORKDIR }}
+        ls 
+        cd ${{ secrets.SMI_BUILDDIR}}
+        ls
+        echo "GITHUB_WORKSPACE=" $GITHUB_WORKSPACE
+        echo "${{ github.repository }}=" ${{ github.repository }}
+        echo "${{ github.token }}=" ${{ github.token }}
+        echo "HOME=" $HOME
+        echo "GITHUB_REPOSITORY=" $GITHUB_REPOSITORY
+        echo "GITHUB_SHA=" $GITHUB_SHA
+        echo "GITHUB_REF=" $GITHUB_REF
+      
+    - name: On my_custom_webhook do ABC...
+      if: github.event.action == 'my_custom_webhook'
+      run: |
+        hostname && echo "Hello From my_custom_webhook...doing ABC"
+        
+    - name: On my_custom_webhook do XYZ...
+      if: github.event.action == 'my_custom_webhook_2'
+      run: |
+        hostname && echo "Hello From my_custom_webhook_2...doing XYZ"
