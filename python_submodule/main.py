@@ -47,7 +47,7 @@ class Nqsv:
 def testQstat(jobID, elapsed_limit=10):
     nqsv = Nqsv()
 
-    timeout = time.time() + elapsed_limit   # 5 minutes from now
+    timeout = time.time() + elapsed_limit   # elapsed_limit (sec) from now
     duration = 5
     print(time.time(), " ", timeout)
     while True:
@@ -55,10 +55,10 @@ def testQstat(jobID, elapsed_limit=10):
         #print(time.time(), " ", timeout)
         if (output.find(jobID) == -1):
             print(color.red('not found'))
-            break
+            return jobID
         elif (time.time() > timeout):
             print(color.red('timeout'))
-            break
+            return -1
         else:
             print(output)
             print(color.green('found'))
