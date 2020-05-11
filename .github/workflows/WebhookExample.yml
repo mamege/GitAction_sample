@@ -8,6 +8,10 @@ jobs:
     
     - name: get information
       run: |
+        cd ${{ secrets.SMI_WORKDIR }}
+        ls 
+        cd ${{SMI_BUILDDIR}}
+        ls
         echo "GITHUB_WORKSPACE=" $GITHUB_WORKSPACE
         echo "${{ github.repository }}=" ${{ github.repository }}
         echo "${{ github.token }}=" ${{ github.token }}
