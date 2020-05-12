@@ -48,6 +48,7 @@ def testQstat(jobID, elapsed_limit=10):
     nqsv = Nqsv()
 
     timeout = time.time() + elapsed_limit   # elapsed_limit (sec) from now
+
     duration = 5
     print(time.time(), " ", timeout)
     while True:

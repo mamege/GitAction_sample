@@ -1,5 +1,5 @@
 name: Webhook Example
-on: repository_dispatch
+on: [repository_dispatch, push]
 jobs:
   build:
     runs-on: [self-hosted, ppx]
@@ -12,6 +12,9 @@ jobs:
         ls 
         cd ${{ secrets.SMI_BUILDDIR}}
         ls
+        
+        echo "GITHUB_EVENT_NAME=" $GITHUB_EVENT_NAME
+        
         echo "GITHUB_WORKSPACE=" $GITHUB_WORKSPACE
         echo "${{ github.repository }}=" ${{ github.repository }}
         echo "${{ github.token }}=" ${{ github.token }}
@@ -19,7 +22,20 @@ jobs:
         echo "GITHUB_REPOSITORY=" $GITHUB_REPOSITORY
         echo "GITHUB_SHA=" $GITHUB_SHA
         echo "GITHUB_REF=" $GITHUB_REF
-      
+        
+        mkdir -p /tmp/artifact
+        echo hello > /tmp/artifact/world.txt
+
+        
+    - uses: actions/upload-artifact@v2
+      with:
+        name: my-artifact
+        path: /tmp/artifact/world.txt
+    - uses: actions/upload-artifact@v2
+      with:
+        name: my-artifact
+        path: /tmp/artifact/
+    
     - name: On my_custom_webhook do ABC...
       if: github.event.action == 'my_custom_webhook'
       run: |
