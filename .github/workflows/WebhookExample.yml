@@ -24,17 +24,47 @@ jobs:
         echo "GITHUB_REF=" $GITHUB_REF
         
         mkdir -p /tmp/artifact
-        echo hello > /tmp/artifact/world.txt
+        cat <<'EOF' > /tmp/artifact/annotations.json
+[
+  {
+    "message": "This is a annotation message",
+    "path": "annotations.json",
+    "column": { "start": 17, "end": 45 },
+    "line": { "start": 3, "end": 3 },
+    "level": "notice"
+  },
+  {
+    "message": "This is a annotation group",
+    "path": "annotations.json",
+    "column": { "start": 3, "end": 4 },
+    "line": { "start": 9, "end": 15 },
+    "level": "notice"
+  },
+  {
+    "message": "This is a annotation on file outside of changed",
+    "path": "LICENSE.md",
+    "line": { "start": 1, "end": 1 },
+    "level": "warning"
+  }
+]       
+EOF
 
+    - name: Annotate
+      uses: Attest/annotations-action@v0.1.0
+      with:
+        token: ${{ secrets.git_token }}
+        input: '/tmp/artifact/annotations.json'
+        title: 'Annota        
+    - uses: actions/upload-artifact@v2
+      with:
+        name: my-artifact
+        path: /tmp/artifact/annotations.json
         
+    
     - uses: actions/upload-artifact@v2
       with:
         name: my-artifact
-        path: /tmp/artifact/world.txt
-    - uses: actions/upload-artifact@v2
-      with:
-        name: my-artifact
-        path: /tmp/artifact/
+        path: /home/kashino/log/2020-04/SMI_v19_4/build/microbenchmarks/bw_eager_dev/bandwidth_dev0/bandwidth_dev0.aocx
     
     - name: On my_custom_webhook do ABC...
       if: github.event.action == 'my_custom_webhook'
