@@ -1,5 +1,5 @@
 name: Webhook Example
-on: repository_dispatch
+on: [repository_dispatch, push]
 jobs:
   build:
     runs-on: [self-hosted, ppx]
@@ -12,6 +12,9 @@ jobs:
         ls 
         cd ${{ secrets.SMI_BUILDDIR}}
         ls
+        
+        echo "GITHUB_EVENT_NAME=" $GITHUB_EVENT_NAME
+        
         echo "GITHUB_WORKSPACE=" $GITHUB_WORKSPACE
         echo "${{ github.repository }}=" ${{ github.repository }}
         echo "${{ github.token }}=" ${{ github.token }}
