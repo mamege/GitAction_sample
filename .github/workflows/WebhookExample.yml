@@ -25,12 +25,7 @@ jobs:
         
         mkdir -p /tmp/artifact
         wget https://raw.githubusercontent.com/Attest/annotations-action/master/annotations.json -P /tmp/artifact/
-    - name: Annotate
-      uses: Attest/annotations-action@v0.1.0
-      with:
-        token: ${{ secrets.git_token }}
-        input: '/tmp/artifact/annotations.json'
-        title: 'Annota'       
+
     - uses: actions/upload-artifact@v2
       with:
         name: my-artifact
